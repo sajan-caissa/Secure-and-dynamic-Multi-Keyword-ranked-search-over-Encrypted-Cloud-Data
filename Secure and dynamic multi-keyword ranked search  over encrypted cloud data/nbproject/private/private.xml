@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/template.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/ownerDetails.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/api/RSAKeyPair.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/userRegister.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/db/DBconnection.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/dropbox/FileDownloader.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/api/kNN.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/index.html</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/dropbox/DropBoxAccess.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/dropbox/FileUploader.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/download.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/login_action.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/dropbox/DirectoryListing.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/upload_file.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/web/dropbox/DbxAuthorizer.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/userDetails.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/userPage.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/dropbox/Authorization.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/userpageAction.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/api/FileEncryption.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/rankinguser.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/registration.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/WEB-INF/index.html</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/ranking.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/enablingKeyWordSearch/servlet_register.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/api/ExtensionFileFilter.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/index.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/com/api/AppConfiguration.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/login.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/multikeywordSearch.jsp</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/src/java/enablingKeyWordSearch/servlet_userRegister.java</file>
+            <file>file:/C:/Users/SAJAN/Documents/NetBeansProjects/DSsample2/web/ownerPage.jsp</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,361 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 27 Nov, 2017, 2:29:45 PM
+    Author     : SAJAN
+*/
+
+
+
+
+body{
+   
+    color: black;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    
+}
+.body{
+    background-color:#566573; 
+    margin: 0 auto;
+    width: 80%;
+   
+    
+}
+
+a{
+    text-decoration: none;
+}
+a:link, a:visited{
+    color: #5DADE2;
+}
+a:hover, a:active{
+    color: #5DADE2;
+}
+
+
+.mainheader h1{
+    background-color:black;
+    padding: 3%;
+    text-align: center;
+    color:white;
+    margin-bottom:  0px;
+}
+.mainheader nav{
+    background-color: #2C3E50;
+    height: 70px;
+      
+}
+
+.mainheader nav ul{
+    list-style: none;
+    padding-left: 0px;
+    margin:0;
+     
+}
+
+.mainheader nav ul li{
+    float: left;
+    display: inline;
+  
+}
+.mainheader nav a:link, .mainheader nav a:visited{
+    color: white;
+    display: inline-block;
+    padding: 13px 20px;
+    line-height: 44px;
+    font-size: 18px;
+}
+.mainheader nav a:hover, .mainheader nav a:active, .mainheader nav .active a:visited{
+    background-color: #3EA055;
+    text-shadow:none;
+}
+
+.maincontent{
+    line-height: 25px;
+    
+
+}
+.content
+{
+    width: 100%;
+    float: left;
+   
+}
+.topcontent{
+    background-color: white;
+     
+    padding: 3%;
+    margin:0% 0% 0% 0%;
+}
+.bottompcontent{
+    background-color: white;
+     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 3%;
+    margin:3% 0% 3% 0%;
+}
+.post-info{
+    color: darkgray;
+    font-style: italic; 
+}
+.top-sidebar{
+    width: 23%;
+    float: left;
+    background-color: white;
+     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 3%
+}
+.top-sidebar img{
+   width: 100%;
+   height: 100%;
+}
+.middle-sidebar{
+    width: 23%;
+    float: left;
+    background-color: white;
+     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 3%
+        
+}
+.middle-sidebar img{
+   width: 100%;
+   height: 100%;
+}
+
+.bottom-sidebar{
+    width: 23%;
+    float: left;
+    background-color: white;
+     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 2%;
+   margin: 2% 0% 3% 3%;
+    
+}
+.mainfooter{
+    width: 100%;
+    background-color: #2C3E50;
+    float: left;
+    height: auto;
+    padding: 0px;
+    margin-bottom: 3%;
+    
+    
+}
+.mainfooter p{
+    width: 92%;
+    
+    color: white;
+    text-align: center;
+    font-size: 25px;
+}
+
+/*sub pages*/
+
+.mcontent{
+    width: 30%;
+    height: auto;
+    background-color: darkslategrey;
+   float: left;
+   
+}
+.horizandal_menu
+{
+    background-color: darkslategrey;
+    
+}
+.horizandal_menu ul{
+    list-style: none;
+    margin: 0px;
+    padding: 80px 0px 90px 0px;
+    
+}
+
+.horizandal_menu ul li{
+    text-align: center;
+    font-size: 20px;
+    
+}
+.horizandal_menu ul li a{
+    display: block;
+    padding: 10px;
+}
+
+li a.active{
+    background-color: #839192;
+    color:black;
+}
+li a:hover:not(.active){
+    background-color: #138D75;
+    color:black;
+}
+
+.mainbody{
+    float: left;
+    width: 70%;
+}
+table, td, th,tr {    
+    border: 1px solid #ddd;
+    
+    font-size: 18px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin-top:3%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+}
+
+th, td {
+    padding: 5px;
+}
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+    padding: 20px 60px 20px 60px;
+    
+}
+#userlink{
+    
+    margin-top: 13%;
+}
+/*responsive media page*/
+
+
+@media only screen and (min-width:150px) and (max-width:600px){
+    .body{
+       width: 90%;
+       font-size: 95%;
+    }
+   
+.mainheader nav{
+   
+    height: 300px;
+    
+  }
+  .mainheader nav ul{
+    padding-left: 0px;
+    margin:0;
+}
+.mainheader nav ul li{
+    width: 100%;
+    text-align: center;
+}
+.mainheader nav a:link, .mainheader nav a:visited{
+    color: white;
+    display: block;
+    padding: 13px 20px;
+    height: 25px;
+  
+}
+
+.content
+{
+    width: 100%;
+    float: left;
+   
+}
+.topcontent{
+    background-color: white;
+     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 3%;
+    margin:0% 0% 0% 0%;
+}
+.bottompcontent{
+    background-color: white;
+     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 3%;
+    margin:3% 0% 3% 0%;
+}
+.post-info{
+    display: none;
+}
+
+.top-sidebar{
+    width: 95%;
+    float: left;
+    background-color: white;
+     
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 0%;
+    
+}
+.middle-sidebar{
+    width: 95%;
+    float: left;
+    background-color: white;
+     
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 0%;
+}
+.bottom-sidebar{
+    width: 95%;
+    float: left;
+    background-color: white;
+     
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 0%;
+    
+}
+.mainfooter{
+    width: 100%;
+    background-color: black;
+    float: left;
+  
+}
+
+.mcontent{
+    width: 100%;
+    height: auto;
+    
+}
+.mainbody{
+        width: 100%;
+}
+table, td, th,tr {    
+    border: 1px solid #ddd;
+    text-align: center;
+    
+}
+
+table {
+    border: 0;
+    width: 100%;
+}
+
+th, td {
+    padding: 5px;
+    
+}
+
+}
