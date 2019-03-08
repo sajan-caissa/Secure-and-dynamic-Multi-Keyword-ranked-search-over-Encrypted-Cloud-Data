@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package enablingKeyWordSearch;
+package java.enablingKeyWordSearch;
+
+import java.db.DBconnection;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
  * @author SAJAN
  */
 
-import com.mysql.jdbc.Connection;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import db.DBconnection;
 
 public class servlet_register extends HttpServlet {
 
