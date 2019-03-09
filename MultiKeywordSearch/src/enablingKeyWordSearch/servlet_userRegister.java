@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.enablingKeyWordSearch;
+package enablingKeyWordSearch;
 
-import java.db.DBconnection;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -14,16 +13,23 @@ import java.io.PrintWriter;
  * @author SAJAN
  */
 
+
+ 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class servlet_register extends HttpServlet {
+import db.DBconnection;
 
+@WebServlet(urlPatterns="/servlet_userRegister")
+public class servlet_userRegister extends HttpServlet {
+
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,28 +43,30 @@ public class servlet_register extends HttpServlet {
         String pincode = request.getParameter("pincode");
         String status="waiting";
         Connection con=null;
+        
         try{
+            System.out.println("b4 db connection");
         con=(Connection)DBconnection.getConnection();
-        PreparedStatement ps=con.prepareStatement("insert into registration(username,password,email,mobile,dob,pincode) values(?,?,?,?,?,?)");
+        PreparedStatement ps=con.prepareStatement("insert into userregistration(username,password,email,mobile,dob,pincode) values(?,?,?,?,?,?)");
         ps.setString(1, username);
         ps.setString(2, password);
         ps.setString(3, email);
         ps.setString(4, mobile);
         ps.setString(5, dob);
         ps.setString(6, pincode);
-            System.out.println("Hiiiiiii");
+            System.out.println("After db connection");
         
         int i=ps.executeUpdate();
             
           if(i>0)
           {
                        
-            response.sendRedirect("registration.jsp?msg=registration success!");
+            response.sendRedirect("userRegister.jsp?msg=registration success!");
                        
           }
           else
           {
-            response.sendRedirect("registration.jsp?msg=registration not success!");  
+            response.sendRedirect("userRegister.jsp?msg=registration not success!");  
           }
         
         }
