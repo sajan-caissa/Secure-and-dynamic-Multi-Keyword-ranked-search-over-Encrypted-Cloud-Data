@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import db.DBconnection;
 
-@WebServlet(urlPatterns="/servlet_register")
+@WebServlet(name = "servlet_register", urlPatterns = {"/servlet_register"})
 public class servlet_register extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
