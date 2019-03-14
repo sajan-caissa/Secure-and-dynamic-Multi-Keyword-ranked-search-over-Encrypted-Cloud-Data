@@ -34,6 +34,7 @@
                 <article class="topcontent">
                    
                     <content>
+<%--                         <form action="${pageContext.request.contextPath}/servlet_register" method="post"> --%>
                         <form action="servlet_register" method="post">
                         <table>
                 <tr>

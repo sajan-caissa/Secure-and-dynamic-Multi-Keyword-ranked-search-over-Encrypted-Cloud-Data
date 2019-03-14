@@ -34,7 +34,7 @@
                 <article class="topcontent">
                    
                     <content>
-                        <form action="servlet_userRegister" method="post">
+                        <form action="${pageContext.request.contextPath}/servlet_userRegister" method="post">
                         <table>
                 <tr>
                 <caption>User Registration Details</caption>
