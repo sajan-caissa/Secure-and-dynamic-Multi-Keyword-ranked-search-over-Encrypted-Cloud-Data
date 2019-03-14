@@ -11,7 +11,6 @@ package db;
  */
 
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,8 +24,8 @@ public class DBconnection {
 		
 		Connection con = null;
 		try {
-                    Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","root","root");
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","bryan", "bryan");
             
             if(con==null)
             {
