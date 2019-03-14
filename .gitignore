@@ -72,3 +72,6 @@ hs_err_pid*
 .classpath
 
 classes/
+
+# hide access token
+dropbox_access_token.txt
