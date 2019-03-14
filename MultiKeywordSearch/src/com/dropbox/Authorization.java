@@ -89,8 +89,8 @@ public class Authorization {
     public void authorize(String code) throws DbxException {
         authFinish = webAuth.finish(code);
         System.out.println("Authorization complete.");
-        System.out.println("- User ID: " + authFinish.userId);
-        System.out.println("- Access Token: " + authFinish.accessToken);
+        System.out.println("- User ID: " + authFinish.getUserId());
+        System.out.println("- Access Token: " + authFinish.getAccessToken());
     }
 
     /**
@@ -111,7 +111,7 @@ public class Authorization {
      */
     public void saveAuthInfo(File authInfoFile) throws IOException {
         // Save auth information to output file.
-        DbxAuthInfo authInfo = new DbxAuthInfo(authFinish.accessToken, appInfo.host);
+        DbxAuthInfo authInfo = new DbxAuthInfo(authFinish.getAccessToken(), appInfo.getHost());
         DbxAuthInfo.Writer.writeToFile(authInfo, authInfoFile);
         System.out.println("Saved authorization information to \"" + authInfoFile + "\".");
     }

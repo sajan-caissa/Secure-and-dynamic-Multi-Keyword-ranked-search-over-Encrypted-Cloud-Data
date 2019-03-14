@@ -5,21 +5,6 @@
  */
 package com.dropbox;
 
-/**
- *
- * @author SAJAN
- */
-
-
-import com.dropbox.core.DbxAuthInfo;
-import com.dropbox.core.DbxClient;
-import com.dropbox.core.DbxEntry;
-import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxPath;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWriteMode;
-import com.dropbox.core.json.JsonReader;
-import com.dropbox.core.util.IOUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,13 +13,29 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ *
+ * @author SAJAN
+ */
+
+
+import com.dropbox.core.DbxAuthInfo;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.json.JsonReader;
+import com.dropbox.core.util.IOUtil;
+import com.dropbox.core.v1.DbxClientV1;
+import com.dropbox.core.v1.DbxEntry;
+import com.dropbox.core.v1.DbxPathV1;
+import com.dropbox.core.v1.DbxWriteMode;
+
 
 public class FileUploader {
 
     private String authFile = "";
     private String dropboxPath = "/";
     private DbxAuthInfo authInfo;
-    private DbxClient dbxClient;
+    private DbxClientV1 dbxClient;
     private String userLocale = Locale.getDefault().toString();
     private static final String clientIdentifier = "TextEditor/1.0";
 
@@ -52,7 +53,7 @@ public class FileUploader {
     private void loadAuthFile() throws JsonReader.FileLoadException {
         authInfo = DbxAuthInfo.Reader.readFromFile(authFile);
         DbxRequestConfig requestConfig = new DbxRequestConfig(clientIdentifier, userLocale);
-        dbxClient = new DbxClient(requestConfig, authInfo.accessToken, authInfo.host);
+        dbxClient = new DbxClientV1(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
     }
 
     public void setPath(String dropboxPath) {
@@ -69,16 +70,16 @@ public class FileUploader {
     }
 
     public boolean checkValidPath() {
-        if (DbxPath.isValid(dropboxPath)) {
+        if (DbxPathV1.isValid(dropboxPath)) {
             System.out.println("Is Valid Path : " + dropboxPath);
         } else {
             System.out.println("Is InValid Path : " + dropboxPath);
         }
-        return DbxPath.isValid(dropboxPath);
+        return DbxPathV1.isValid(dropboxPath);
     }
 
     public String checkPathErr(String file_to_upload) {
-        String pathError = DbxPath.findError(dropboxPath + "/" + file_to_upload);
+        String pathError = DbxPathV1.findError(dropboxPath + "/" + file_to_upload);
         System.out.println("Upload Path : " + dropboxPath + "/" + file_to_upload);
         return pathError;
     }
@@ -103,7 +104,7 @@ public class FileUploader {
     }
 
     public boolean uploadFile(String file_to_upload, InputStream in) throws DbxException, IOException {
-        String pathError = DbxPath.findError(dropboxPath + "/" + file_to_upload);
+        String pathError = DbxPathV1.findError(dropboxPath + "/" + file_to_upload);
         if (pathError != null) {
             System.err.println("Invalid <dropbox-path>: " + pathError);
             return false;
@@ -115,7 +116,7 @@ public class FileUploader {
     }
     
     public boolean updateFile(String file_to_upload, InputStream in) throws DbxException, IOException {
-        String pathError = DbxPath.findError(dropboxPath + "/" + file_to_upload);
+        String pathError = DbxPathV1.findError(dropboxPath + "/" + file_to_upload);
         if (pathError != null) {
             System.err.println("Invalid <dropbox-path>: " + pathError);
             return false;

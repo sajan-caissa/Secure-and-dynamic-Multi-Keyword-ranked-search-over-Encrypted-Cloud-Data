@@ -86,7 +86,8 @@ out.print(ex);
                 </article>
 
             </div>
-        </div        <footer class="mainfooter">
+        </div>
+        <footer class="mainfooter">
             <p>Secure Data Sharing in Real Cloud</p>
         </footer>
     </body>

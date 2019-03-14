@@ -7,9 +7,9 @@
 
 
 <%@page import="java.io.OutputStream"%>
-<%@page import="com.dropbox.core.DbxWriteMode"%>
+<%@page import="com.dropbox.core.v1.DbxWriteMode"%>
 <%@page import="com.dropbox.DropBoxAccess"%>
-<%@page import="com.dropbox.core.DbxClient"%>
+<%@page import="com.dropbox.core.v1.DbxClientV1"%>
 <%@ page import="java.io.FileInputStream" %> 
 <%@ page import="java.io.BufferedInputStream" %> 
 <%@ page import="java.io.File" %>
@@ -30,7 +30,7 @@
 //set response headers 
 //                response.setContentType("text/pdf");
                 //             response.addHeader("Content-Disposition", "attachment; filename=" + filename);
-                DbxClient dbxclient = DropBoxAccess.getDbxClient();
+                DbxClientV1 dbxclient = DropBoxAccess.getDbxClient();
                 dbxclient.getFile("/"+filename, null, myOut);
 
                 //               int readBytes = 0;
