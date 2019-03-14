@@ -8,7 +8,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="db.DBconnection"%>
-<%@page contentType="text/html" pageEncoding="UTF- 8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,7 +54,7 @@
                 try
                 {
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","root", "root");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","bryan", "bryan");
 
                 java.sql.Statement st=con.createStatement();
                 String sql="select appkey, count(*)  from fileupload group by appkey";

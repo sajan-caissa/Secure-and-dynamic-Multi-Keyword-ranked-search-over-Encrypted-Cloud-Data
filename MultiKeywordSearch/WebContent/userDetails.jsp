@@ -62,7 +62,7 @@
                 {
                 //Connection con=null;
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","root", "root");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","bryan", "bryan");
 
                 java.sql.Statement st=con.createStatement();
                 String sql="select * from userregistration";

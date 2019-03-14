@@ -102,7 +102,7 @@
                     out.print(query);
 
                     Class.forName("com.mysql.jdbc.Driver");
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search", "root", "root");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search", "bryan", "bryan");
                     String sql = "insert into fileupload (uname,filename,filesize,filePath,appkey,indexval)values (?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
                    
