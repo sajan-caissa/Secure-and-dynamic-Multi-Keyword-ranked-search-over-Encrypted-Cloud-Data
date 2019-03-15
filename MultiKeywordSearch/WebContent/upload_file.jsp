@@ -7,7 +7,7 @@
 
 <%@page import="com.dropbox.core.v1.DbxWriteMode"%>
 <%@page import="com.dropbox.DropBoxAccess"%>
-<%@page import="com.dropbox.core.v1.DbxClientV1"%>
+<%@page import="com.dropbox.core.v2.DbxClientV2"%>
 <%@page import="java.io.FileInputStream"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -89,8 +89,10 @@
                                 //InputStream in = new FileInputStream(file);
                                 
                                  // drop box coading start   
-                                DbxClientV1 dbxclient = DropBoxAccess.getDbxClient();
-                                dbxclient.uploadFile("/"+filename, DbxWriteMode.add(), -1, item.getInputStream());
+                                 String dbxFolder = "privacyproject";
+                                DbxClientV2 dbxclient = DropBoxAccess.getDbxClient();
+                                 dbxclient.files().upload("/" + dbxFolder + "/" + filename);
+                                //dbxclient.uploadFile("/"+filename, DbxWriteMode.add(), -1, item.getInputStream());
                                 //out.print(filePath + filename + " <br> ");
                                 //item.write(file);
                                 //out.println(file);
