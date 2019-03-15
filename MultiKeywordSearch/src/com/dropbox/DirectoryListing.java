@@ -5,9 +5,6 @@
  */
 package com.dropbox;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
  *
  * @author SAJAN
@@ -19,17 +16,16 @@ import com.dropbox.core.DbxAuthInfo;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.json.JsonReader;
-import com.dropbox.core.v1.DbxClientV1;
-import com.dropbox.core.v1.DbxEntry;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
 
 public class DirectoryListing {
 
     private String authFile = "";
     private DbxAuthInfo authInfo;
-    private DbxClientV1 dbxClient;
-    private String userLocale = Locale.getDefault().toString();
-    private static final String clientIdentifier = "TextEditor/1.0";
-
+    private DbxClientV2 dbxClient;
+    
     public DirectoryListing(String authFile) throws JsonReader.FileLoadException {
         this.authFile = authFile;
         loadAuthFile();
@@ -37,21 +33,20 @@ public class DirectoryListing {
 
     private void loadAuthFile() throws JsonReader.FileLoadException {
         authInfo = DbxAuthInfo.Reader.readFromFile(authFile);
-        DbxRequestConfig requestConfig = new DbxRequestConfig(clientIdentifier, userLocale);
-        dbxClient = new DbxClientV1(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
+        DbxRequestConfig requestConfig = new DbxRequestConfig("examples-account-info");
+        dbxClient = new DbxClientV2(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
     }
     
-    public List<DbxEntry> getChildrens(String dropboxPath) throws DbxException{
-        // Directory Listing
-        DbxEntry.WithChildren listing = dbxClient.getMetadataWithChildren(dropboxPath);
-        return listing.children;
-    }
     
     public void listDirectory(String dropboxPath) throws DbxException{
-        // Directory Listing        
+        // Directory Listing    
+    	ListFolderResult result = dbxClient.files().listFolder(dropboxPath);
+    	
         System.out.println("Files in the " + dropboxPath + " path:");        
-        for (DbxEntry child : getChildrens(dropboxPath)) {
-            System.out.println("  " + child.name + ": " + child.toString());
-        }
+        while (true) {
+			for (Metadata metadata : result.getEntries()) {
+				System.out.println("  " + metadata.getName() + ": " + metadata.getPathLower());
+			}
+		}
     }
 }

@@ -10,8 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Locale;
+import java.util.Date;
 
 /**
  *
@@ -24,21 +23,20 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.json.JsonReader;
 import com.dropbox.core.util.IOUtil;
-import com.dropbox.core.v1.DbxClientV1;
-import com.dropbox.core.v1.DbxEntry;
-import com.dropbox.core.v1.DbxPathV1;
-import com.dropbox.core.v1.DbxWriteMode;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.DbxPathV2;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.UploadErrorException;
+import com.dropbox.core.v2.files.WriteMode;
 
 
 public class FileUploader {
 
     private String authFile = "";
-    private String dropboxPath = "/";
+    private String dropboxPath = "/privacyproject/";
     private DbxAuthInfo authInfo;
-    private DbxClientV1 dbxClient;
-    private String userLocale = Locale.getDefault().toString();
-    private static final String clientIdentifier = "TextEditor/1.0";
-
+    private DbxClientV2 dbxClient;
+    
     public FileUploader(String authFile) throws JsonReader.FileLoadException {
         this.authFile = authFile;
         loadAuthFile();
@@ -52,8 +50,8 @@ public class FileUploader {
 
     private void loadAuthFile() throws JsonReader.FileLoadException {
         authInfo = DbxAuthInfo.Reader.readFromFile(authFile);
-        DbxRequestConfig requestConfig = new DbxRequestConfig(clientIdentifier, userLocale);
-        dbxClient = new DbxClientV1(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
+        DbxRequestConfig requestConfig = new DbxRequestConfig("examples-account-info");
+        dbxClient = new DbxClientV2(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
     }
 
     public void setPath(String dropboxPath) {
@@ -70,16 +68,16 @@ public class FileUploader {
     }
 
     public boolean checkValidPath() {
-        if (DbxPathV1.isValid(dropboxPath)) {
+        if (DbxPathV2.isValid(dropboxPath)) {
             System.out.println("Is Valid Path : " + dropboxPath);
         } else {
             System.out.println("Is InValid Path : " + dropboxPath);
         }
-        return DbxPathV1.isValid(dropboxPath);
+        return DbxPathV2.isValid(dropboxPath);
     }
 
     public String checkPathErr(String file_to_upload) {
-        String pathError = DbxPathV1.findError(dropboxPath + "/" + file_to_upload);
+        String pathError = DbxPathV2.findError(dropboxPath + "/" + file_to_upload);
         System.out.println("Upload Path : " + dropboxPath + "/" + file_to_upload);
         return pathError;
     }
@@ -103,28 +101,43 @@ public class FileUploader {
         }
     }
 
-    public boolean uploadFile(String file_to_upload, InputStream in) throws DbxException, IOException {
-        String pathError = DbxPathV1.findError(dropboxPath + "/" + file_to_upload);
+    public boolean uploadFile(String file_to_upload, InputStream in) {
+        String pathError = DbxPathV2.findError(dropboxPath + "/" + file_to_upload);
         if (pathError != null) {
             System.err.println("Invalid <dropbox-path>: " + pathError);
             return false;
         }
         // Make the API call to upload the file.
-        DbxEntry.File metadata = dbxClient.uploadFile(dropboxPath + "/" + file_to_upload, DbxWriteMode.add(), -1, in);
-        System.out.print(metadata.toStringMultiline());
+        
+        try {
+        	File localFile = new File(file_to_upload);
+        	
+        	FileMetadata metadata = dbxClient.files().uploadBuilder(dropboxPath + "/" + file_to_upload)
+        			.withMode(WriteMode.ADD)
+        			.withClientModified(new Date(localFile.lastModified()))
+        			.uploadAndFinish(in);
+        	
+        	System.out.println(metadata.toStringMultiline());        	
+		} catch (UploadErrorException e) {
+			System.err.println("Error uploading to DropBox: " + e.getMessage());
+		} catch (DbxException e) {
+			System.err.println("Error uploading to DropBox: " + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Error reading file: \"" + file_to_upload + "\": " +  e.getMessage());
+		}
         return true;
     }
     
     public boolean updateFile(String file_to_upload, InputStream in) throws DbxException, IOException {
-        String pathError = DbxPathV1.findError(dropboxPath + "/" + file_to_upload);
+        String pathError = DbxPathV2.findError(dropboxPath + "/" + file_to_upload);
         if (pathError != null) {
             System.err.println("Invalid <dropbox-path>: " + pathError);
             return false;
         }
-        // Make the API call to upload the file.
-        List<DbxEntry.File> file_Rev = dbxClient.getRevisions(dropboxPath + "/" + file_to_upload);
-        
-        DbxEntry.File metadata = dbxClient.uploadFile(dropboxPath + "/" + file_to_upload, DbxWriteMode.update(file_Rev.get(file_Rev.size()-1).rev), -1, in);
+        // Make the API call to upload the file.        
+        FileMetadata metadata = dbxClient.files().uploadBuilder(dropboxPath + "/" + file_to_upload)
+    			.withMode(WriteMode.OVERWRITE)
+    			.uploadAndFinish(in);
         System.out.print(metadata.toStringMultiline());
         return true;
     }

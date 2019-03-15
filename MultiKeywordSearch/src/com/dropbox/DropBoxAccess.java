@@ -5,7 +5,10 @@
  */
 package com.dropbox;
 
-import java.util.Locale;
+import java.io.FileNotFoundException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.Scanner;
 
 /**
  *
@@ -13,18 +16,21 @@ import java.util.Locale;
  */
 
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.v1.DbxClientV1;
+import com.dropbox.core.v2.DbxClientV2;
 
 public class DropBoxAccess {
 
-    private final static String ACCESS_TOKEN = "Your dropbox access token";
-    private final static String userLocale = Locale.getDefault().toString();
-    private static DbxClientV1 dbxClient;
+    private static DbxClientV2 dbxClient;
 
-    public static DbxClientV1 getDbxClient() {
-        DbxRequestConfig requestConfig = new DbxRequestConfig("examples-account-info", userLocale);
+    public static DbxClientV2 getDbxClient() throws FileNotFoundException {
+    	Path path = FileSystems.getDefault().getPath("dropbox_access_token.txt").toAbsolutePath();
+    	Scanner scan = new Scanner(path.toFile());
+    	String tokenString = scan.useDelimiter("\\Z").next();
+    	scan.close();
+    	
+        DbxRequestConfig requestConfig = new DbxRequestConfig("examples-account-info");
         if (dbxClient == null) {
-            dbxClient = new DbxClientV1(requestConfig, ACCESS_TOKEN);
+            dbxClient = new DbxClientV2(requestConfig, tokenString);
         }
         return dbxClient;
     }

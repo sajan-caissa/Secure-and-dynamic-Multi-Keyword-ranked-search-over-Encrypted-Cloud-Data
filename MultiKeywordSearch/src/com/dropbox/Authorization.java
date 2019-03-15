@@ -16,7 +16,7 @@ import com.dropbox.core.DbxAuthFinish;
 import com.dropbox.core.DbxAuthInfo;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWebAuth;
 import com.dropbox.core.json.JsonReader;
 import java.awt.Desktop;
 import java.io.File;
@@ -29,7 +29,7 @@ public class Authorization {
     private static final String userLocale = Locale.getDefault().toString();
     private static final String clientIdentifier = "TextEditor/1.0";
     private final DbxAppInfo appInfo;
-    private DbxWebAuthNoRedirect webAuth;
+    private DbxWebAuth webAuth;
     private String authorizeUrl;
     private DbxAuthFinish authFinish;    
 
@@ -67,9 +67,12 @@ public class Authorization {
 
     private void generateAuthURL() {
         // Run through Dropbox API authorization process        
-        DbxRequestConfig requestConfig = new DbxRequestConfig(clientIdentifier, userLocale);
-        webAuth = new DbxWebAuthNoRedirect(requestConfig, appInfo);
-        authorizeUrl = webAuth.start();
+        DbxRequestConfig requestConfig = new DbxRequestConfig("examples-account-info");
+        webAuth = new DbxWebAuth(requestConfig, appInfo);
+        DbxWebAuth.Request webAuthRequest = DbxWebAuth.newRequestBuilder()
+                .withNoRedirect()
+                .build();
+        authorizeUrl = webAuth.authorize(webAuthRequest);
         System.out.println("The Authorization URL is : "+authorizeUrl);        
     }
 
@@ -87,7 +90,7 @@ public class Authorization {
      * @throws DbxException
      */
     public void authorize(String code) throws DbxException {
-        authFinish = webAuth.finish(code);
+        authFinish = webAuth.finishFromCode(code);
         System.out.println("Authorization complete.");
         System.out.println("- User ID: " + authFinish.getUserId());
         System.out.println("- Access Token: " + authFinish.getAccessToken());

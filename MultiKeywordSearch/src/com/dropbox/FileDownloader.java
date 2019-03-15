@@ -7,7 +7,6 @@ package com.dropbox;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  *
@@ -16,18 +15,18 @@ import java.util.Locale;
 
 
 import com.dropbox.core.DbxAuthInfo;
+import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.json.JsonReader;
-import com.dropbox.core.v1.DbxClientV1;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
 
 public class FileDownloader {
     
     private String authFile = "";
     private DbxAuthInfo authInfo;
-    private DbxClientV1 dbxClient;
-    private String userLocale = Locale.getDefault().toString();
-    private static final String clientIdentifier = "TextEditor/1.0";
+    private DbxClientV2 dbxClient;
     
     public FileDownloader(String authFile) throws JsonReader.FileLoadException {
         this.authFile = authFile;
@@ -36,18 +35,17 @@ public class FileDownloader {
     
     private void loadAuthFile() throws JsonReader.FileLoadException {
         authInfo = DbxAuthInfo.Reader.readFromFile(authFile);
-        DbxRequestConfig requestConfig = new DbxRequestConfig(clientIdentifier, userLocale);
-        dbxClient = new DbxClientV1(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
+        DbxRequestConfig requestConfig = new DbxRequestConfig("examples-account-info");
+        dbxClient = new DbxClientV2(requestConfig, authInfo.getAccessToken(), authInfo.getHost());
     }
     
     public void downloadFile(String dropBoxPath, String localPath) throws IOException, DbxException{
-        FileOutputStream outputStream = new FileOutputStream(localPath);
+    	DbxDownloader<FileMetadata> dbxDownloader = dbxClient.files().download(dropBoxPath);
         try {
-            com.dropbox.core.v1.DbxEntry.File downloadedFile = dbxClient.getFile(dropBoxPath, null,
-                outputStream);
-            System.out.println("Metadata: " + downloadedFile.toString());
+        	FileOutputStream outputStream = new FileOutputStream(localPath);
+        	dbxDownloader.download(outputStream);
         } finally {
-            outputStream.close();
+        	dbxDownloader.close();
         }
     }
     
