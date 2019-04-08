@@ -33,7 +33,8 @@
            int value=(int) (Math.random() * 55);
            String indexval=Integer.toString(value);
             File file;
-            String filePath = "E:\\2017\\JAVA\\upload\\";
+            String filePath = "/home/whoami/upload/";
+            /* String filePath = "E:\\2017\\JAVA\\upload\\"; */
             String contentType = request.getContentType();
             if ((contentType.indexOf("multipart/form-data") >= 0)) {
 
@@ -51,13 +52,13 @@
                 username = appkey = filename = filepath = fsize = "";
                 try {
                     // Parse the request to get file items.
-                    List fileItems = upload.parseRequest(request);
-                    Iterator it = fileItems.iterator();
+                    List<FileItem> fileItems = upload.parseRequest(request);
+                    Iterator<FileItem> it = fileItems.iterator();
 
                     while (it.hasNext()) {
                         FileItem item = (FileItem) it.next();
                         long FileSize = item.getSize();
-                        fsize = String.valueOf(FileSize);
+                        
 
                         if (item.isFormField()) {
                             //Plain request parameters will come here. 
@@ -71,7 +72,8 @@
                         } else {
                             String fieldName = item.getFieldName();
                             if (fieldName.equals("file_data")) {
-                                String absolute = item.getName();
+                                String absolute = item.getName(); // FileName.pdf
+                                fsize = String.valueOf(FileSize);
 
                                 String contentTyp = item.getContentType();
 
@@ -104,7 +106,7 @@
                     out.print(query);
 
                     Class.forName("com.mysql.jdbc.Driver");
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search", "bryan", "bryan");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "bryan", "bryan");
                     String sql = "insert into fileupload (uname,filename,filesize,filePath,appkey,indexval)values (?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
                    
