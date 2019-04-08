@@ -25,7 +25,7 @@ public class DBconnection {
 		Connection con = null;
 		try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","bryan", "bryan");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
             
             if(con==null)
             {

@@ -72,7 +72,7 @@
                                         <%
                                         try {
                                            Class.forName("com.mysql.jdbc.Driver");
-Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search","bryan", "bryan");
+Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
 
                                             Statement st = con.createStatement();
 
