@@ -9,6 +9,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="db.DBconnection"%>
+<%@page import="db.EncryptionDecryptionMechanism"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -65,12 +66,16 @@
                                         %>
                                         <table>
                                 <tr>
-                                    <td>FileName</td>
                                     <td>Index</td>
+                                    <td>Encrypted FileName</td>
+                                    <td>FileName (decrypted)</td>
+                                    <td>Secret Key</td>
                                 </tr>
                                         <%
                                         try {
                                             //Connection con = DBconnection.getConnection();
+                                            final String AESKEY = EncryptionDecryptionMechanism.retrieveAESString();
+                                        	String singleTrapdoor = EncryptionDecryptionMechanism.makeTrapdoor(AESKEY, keyword);
                                             
                                             Class.forName("com.mysql.jdbc.Driver");
                                             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
@@ -78,12 +83,16 @@
                                             Statement st = con.createStatement();
 
                                             String sql = "select * from fileupload where appkey='" + keyword + "'";
-                                            ResultSet rs = st.executeQuery(sql);
+                                            String sqlQuery =  String.format("SELECT * FROM fileupload WHERE  appkey = '%s'", singleTrapdoor);
+
+                                            ResultSet rs = st.executeQuery(sqlQuery);
                                      while (rs.next()) {%>
                                 <tr>
-                                    <td><%=rs.getString("id")%></td>
+                                    <td><%=rs.getString("indexval")%></td>
+                                    <td><%=EncryptionDecryptionMechanism.makeTrapdoor(AESKEY, keyword)%></td>
                                     <td><%=rs.getString("filename")%></td>
-                                     <td><%=rs.getString("indexval")%></td>
+                                    <td><%=rs.getString("appkey")%></td>
+                                     
                                      <td><a href="download.jsp?filename=<%=rs.getString("filename")%>">Download</a></td>
                                 </tr>
                                  

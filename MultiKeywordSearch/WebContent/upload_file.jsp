@@ -8,12 +8,16 @@
 <%@page import="com.dropbox.core.v1.DbxWriteMode"%>
 <%@page import="com.dropbox.DropBoxAccess"%>
 <%@page import="com.dropbox.core.v2.DbxClientV2"%>
+<%@page import="db.EncryptionDecryptionMechanism"%>
+<%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.FileInputStream"%>
+<%@page import="java.io.FileReader"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="javax.crypto.SecretKey"%>
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@page import="java.io.File"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
@@ -34,6 +38,12 @@
            String indexval=Integer.toString(value);
             File file;
             String filePath = "/home/whoami/upload/";
+            
+            final String AESKEY = EncryptionDecryptionMechanism.retrieveAESString(); 
+            
+            
+            
+            
             /* String filePath = "E:\\2017\\JAVA\\upload\\"; */
             String contentType = request.getContentType();
             if ((contentType.indexOf("multipart/form-data") >= 0)) {
@@ -48,7 +58,9 @@
                 ServletFileUpload upload = new ServletFileUpload(factory);
                 // maximum file size to be uploaded.
                 upload.setSizeMax(5000 * 1024);
+                
                 String username, appkey, filename, filepath, fsize;
+                String [] trapdoors = null;
                 username = appkey = filename = filepath = fsize = "";
                 try {
                     // Parse the request to get file items.
@@ -68,6 +80,9 @@
                                 username = item.getString();
                             } else if ("appkey".equals(name)) {
                                 appkey = item.getString();
+                                appkey = EncryptionDecryptionMechanism.encryptKeyWord(AESKEY, appkey);
+                                
+                                trapdoors = EncryptionDecryptionMechanism.buildKeyWordValueArray(AESKEY, appkey);
                             }
                         } else {
                             String fieldName = item.getFieldName();
@@ -109,7 +124,8 @@
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "bryan", "bryan");
                     String sql = "insert into fileupload (uname,filename,filesize,filePath,appkey,indexval)values (?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
-                   
+                   	
+                    
                     pst.setString(1, username);
                     pst.setString(2, filename);
                     pst.setString(3, fsize);
@@ -117,14 +133,33 @@
                     pst.setString(5, appkey);
                     pst.setString(6, indexval);
                     int i = pst.executeUpdate();
+                    int j = -1;
+                    
                     out.println(pst + "<br>");
-                    if (i > 0) {
-                        response.sendRedirect("ownerPage.jsp");
+                    if (i > 0 ) {
+                    	// String nestedSql = String.format("select CAST(id AS UNSIGNED) from fileupload where filename = ?", filename);
+                    	for (String trapdoor : trapdoors) {
+                    		String sqlQuery =  "INSERT INTO fileupload_filters  (fileuploadid, trapdoor) " +
+                                    "SELECT ID, ? AS trapdoor " +
+                                    "FROM   fileupload " +
+                                    "WHERE  filename = ? ";
+                    		
+                        	//String sql2 = "insert into fileupload_filters(fileuploadid, trapdoor) values(select id from fileupload where filename = ?,?)";
+                            PreparedStatement pst2 = con.prepareStatement(sqlQuery);
+                            
+                            pst2.setString(1,trapdoor);
+                            pst2.setString(2,filename);
+                            
+                            j = pst2.executeUpdate();
+                            out.println(pst2 + "<br>");
+                        }                        
+                    }
+                    
+                    if (j > 0) {
+                    	response.sendRedirect("ownerPage.jsp");
                     } else {
-
                         response.sendRedirect("template.jsp");
                     }
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

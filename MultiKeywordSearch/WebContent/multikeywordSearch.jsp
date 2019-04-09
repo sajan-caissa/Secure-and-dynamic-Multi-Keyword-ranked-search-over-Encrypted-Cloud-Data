@@ -6,8 +6,10 @@
 
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="db.DBconnection"%>
+<%@page import="db.EncryptionDecryptionMechanism"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -71,13 +73,32 @@
                                 </tr>
                                         <%
                                         try {
+                                        	final String AESKEY = EncryptionDecryptionMechanism.retrieveAESString();
+                                        	String [] trapdoors = EncryptionDecryptionMechanism.buildKeyWordValueArray(AESKEY, keyword);
+                                        	String singleTrapdoor = EncryptionDecryptionMechanism.makeTrapdoor(AESKEY, keyword);
+                                        	
                                            Class.forName("com.mysql.jdbc.Driver");
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
 
                                             Statement st = con.createStatement();
+                                            String sqlQuery0 =  "SELECT * fileupload WHERE id in ( " +
+                                                    "SELECT fileuploadid " +
+                                                    "FROM   fileupload_filters " +
+                                                    "WHERE  trapdoor = ? )";
+                                            
+                                            String sqlQuery =  String.format("SELECT * FROM fileupload WHERE id in (SELECT fileuploadid FROM fileupload_filters WHERE  trapdoor LIKE '%%%s%%' )", singleTrapdoor);
 
-                                            String sql = "select * from fileupload where appkey like '%"+ keyword + "%'";
-                                            ResultSet rs = st.executeQuery(sql);
+                                            String sqlQuery2 =  String.format("SELECT * FROM fileupload WHERE  appkey LIKE '%%%s%%'", singleTrapdoor);
+
+                                            
+                                            /* String sqlQuery =  "INSERT INTO fileupload_filters  (fileuploadid, trapdoor) " +
+                                                    "SELECT ID, ? AS trapdoor " +
+                                                    "FROM   fileupload " +
+                                                    "WHERE  filename = ? "; */
+
+                                            // String sql = "select * from fileupload where appkey like '%"+ keyword + "%'";
+
+                                            ResultSet rs = st.executeQuery(sqlQuery2);
                                      while (rs.next()) {%>
                                 <tr>
                                     <td><%=rs.getString("id")%></td>
