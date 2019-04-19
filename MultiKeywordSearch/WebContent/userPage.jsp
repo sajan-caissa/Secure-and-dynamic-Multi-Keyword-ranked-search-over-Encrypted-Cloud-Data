@@ -23,7 +23,7 @@
     <body class="body">
         <header class="mainheader">
 
-            <h1> Secure Data Sharing in Real Cloud</h1>
+            <h1>Privacy-Preserving Multi-Keyword Search on​ Encrypted Outsourced Data</h1>
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
@@ -77,19 +77,19 @@
                                             final String AESKEY = EncryptionDecryptionMechanism.retrieveAESString();
                                         	String singleTrapdoor = EncryptionDecryptionMechanism.makeTrapdoor(AESKEY, keyword);
                                             
-                                            Class.forName("com.mysql.jdbc.Driver");
+                                            Class.forName("com.mysql.cj.jdbc.Driver");
                                             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
 
                                             Statement st = con.createStatement();
 
-                                            String sql = "select * from fileupload where appkey='" + keyword + "'";
+                                            String sql = "select * from fileupload where appkey LIKE '%" + keyword + "%'";
                                             String sqlQuery =  String.format("SELECT * FROM fileupload WHERE  appkey = '%s'", singleTrapdoor);
-
-                                            ResultSet rs = st.executeQuery(sqlQuery);
+											
+                                            ResultSet rs = st.executeQuery(sql);
+                                            // ResultSet rs = st.executeQuery(sqlQuery);
                                      while (rs.next()) {%>
                                 <tr>
                                     <td><%=rs.getString("indexval")%></td>
-                                    <td><%=EncryptionDecryptionMechanism.makeTrapdoor(AESKEY, keyword)%></td>
                                     <td><%=rs.getString("filename")%></td>
                                     <td><%=rs.getString("appkey")%></td>
                                      
@@ -121,7 +121,7 @@
 
 
         <footer class="mainfooter">
-            <p>Secure Data Sharing in Real Cloud</p>
+            <p>Privacy-Preserving Multi-Keyword Search on​ Encrypted Outsourced Data</p>
         </footer>
     </body>
 </html>

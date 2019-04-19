@@ -21,7 +21,7 @@
     <body class="body">
         <header class="mainheader">
 
-            <h1> Secure Data Sharing in Real Cloud</h1>
+            <h1>Privacy-Preserving Multi-Keyword Search on​ Encrypted Outsourced Data</h1>
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
@@ -54,7 +54,7 @@
                 
                 try
                 {
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
 
                 java.sql.Statement st=con.createStatement();
@@ -86,7 +86,7 @@ out.print(ex);
             </div>
         </div>
         <footer class="mainfooter">
-            <p>Secure Data Sharing in Real Cloud</a></p>
+            <p>Privacy-Preserving Multi-Keyword Search on​ Encrypted Outsourced Data</a></p>
         </footer>
     </body>
 </html>

@@ -80,7 +80,7 @@
                                 username = item.getString();
                             } else if ("appkey".equals(name)) {
                                 appkey = item.getString();
-                                appkey = EncryptionDecryptionMechanism.encryptKeyWord(AESKEY, appkey);
+                                // appkey = EncryptionDecryptionMechanism.encryptKeyWord(AESKEY, appkey);
                                 
                                 trapdoors = EncryptionDecryptionMechanism.buildKeyWordValueArray(AESKEY, appkey);
                             }
@@ -120,7 +120,7 @@
                     String query = "insert into " + filename + username + fsize + filePath + appkey+indexval;
                     out.print(query);
 
-                    Class.forName("com.mysql.jdbc.Driver");
+                    Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "bryan", "bryan");
                     String sql = "insert into fileupload (uname,filename,filesize,filePath,appkey,indexval)values (?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
@@ -137,7 +137,6 @@
                     
                     out.println(pst + "<br>");
                     if (i > 0 ) {
-                    	// String nestedSql = String.format("select CAST(id AS UNSIGNED) from fileupload where filename = ?", filename);
                     	for (String trapdoor : trapdoors) {
                     		String sqlQuery =  "INSERT INTO fileupload_filters  (fileuploadid, trapdoor) " +
                                     "SELECT ID, ? AS trapdoor " +

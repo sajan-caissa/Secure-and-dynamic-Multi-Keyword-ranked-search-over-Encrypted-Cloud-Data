@@ -23,7 +23,7 @@
     <body class="body">
         <header class="mainheader">
 
-            <h1> Secure Data Sharing in Real Cloud</h1>
+            <h1>Privacy-Preserving Multi-Keyword Search on​ Encrypted Outsourced Data</h1>
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
@@ -77,7 +77,7 @@
                                         	String [] trapdoors = EncryptionDecryptionMechanism.buildKeyWordValueArray(AESKEY, keyword);
                                         	String singleTrapdoor = EncryptionDecryptionMechanism.makeTrapdoor(AESKEY, keyword);
                                         	
-                                           Class.forName("com.mysql.jdbc.Driver");
+                                           Class.forName("com.mysql.cj.jdbc.Driver");
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
 
                                             Statement st = con.createStatement();
@@ -86,28 +86,34 @@ Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enabli
                                                     "FROM   fileupload_filters " +
                                                     "WHERE  trapdoor = ? )";
                                             
-                                            String sqlQuery =  String.format("SELECT * FROM fileupload WHERE id in (SELECT fileuploadid FROM fileupload_filters WHERE  trapdoor LIKE '%%%s%%' )", singleTrapdoor);
+                                            /* String sqlQuery =  String.format("SELECT * FROM fileupload WHERE id in (SELECT fileuploadid FROM fileupload_filters WHERE  trapdoor LIKE '%%%s%%' )", singleTrapdoor);
 
-                                            String sqlQuery2 =  String.format("SELECT * FROM fileupload WHERE  appkey LIKE '%%%s%%'", singleTrapdoor);
+                                            String sqlQuery2 =  String.format("SELECT * FROM fileupload WHERE  appkey LIKE '%%%s%%'", singleTrapdoor); */
 
                                             
                                             /* String sqlQuery =  "INSERT INTO fileupload_filters  (fileuploadid, trapdoor) " +
                                                     "SELECT ID, ? AS trapdoor " +
                                                     "FROM   fileupload " +
                                                     "WHERE  filename = ? "; */
+                                           	String [] queries = keyword.trim().split("\\s+");
+                                            for (String currString : queries) {
+                                            	String sql = "select * from fileupload where appkey like '%"+ currString + "%'";
 
-                                            // String sql = "select * from fileupload where appkey like '%"+ keyword + "%'";
+                                                // ResultSet rs = st.executeQuery(sqlQuery2);
+                                                ResultSet rs = st.executeQuery(sql);
+                                         while (rs.next()) {%>
+                                    <tr>
+                                        <td><%=rs.getString("id")%></td>
+                                        <td><%=rs.getString("uname")%></td>
+                                        <td><%=rs.getString("filename")%></td>
+                                         <td><%=rs.getString("appkey")%></td>
+                                         <td><a href="download.jsp?filename=<%=rs.getString("filename")%>">Download</a></td>
+                                    </tr>
+                                     
+                                    <%}
+                                            }
 
-                                            ResultSet rs = st.executeQuery(sqlQuery2);
-                                     while (rs.next()) {%>
-                                <tr>
-                                    <td><%=rs.getString("id")%></td>
-                                    <td><%=rs.getString("uname")%></td>
-                                    <td><%=rs.getString("filename")%></td>
-                                     <td><%=rs.getString("appkey")%></td>
-                                </tr>
-                                 
-                                <%}
+                                            
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                     }%>
@@ -132,7 +138,7 @@ Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enabli
 
 
         <footer class="mainfooter">
-            <p>Secure Data Sharing in Real Cloud</p>
+            <p>Privacy-Preserving Multi-Keyword Search on​ Encrypted Outsourced Data</p>
         </footer>
     </body>
 </html>

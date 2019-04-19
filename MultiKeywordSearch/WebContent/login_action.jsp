@@ -12,7 +12,7 @@ String loginoption=request.getParameter("loginoption");
 
 if(loginoption.equals("volvo"))
 {
-    Class.forName("com.mysql.jdbc.Driver");
+    Class.forName("com.mysql.cj.jdbc.Driver");
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enablingkeyword_search?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","bryan", "bryan");
 Statement st = con.createStatement();
 ResultSet rs;
